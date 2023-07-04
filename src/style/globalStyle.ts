@@ -139,7 +139,7 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: 300;
     color: black;
     line-height: 1.2;
-    font-family: 'Avenir LT Std', sans-serif;
+    font-family: 'Inter';
   }
   .normal {
     font-weight: 400;
