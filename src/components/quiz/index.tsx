@@ -11,17 +11,6 @@ export const Quiz = () => {
   );
 };
 
-const IconContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 400px;
-  height: 400px;
-  border-radius: 8px;
-  border: 0.2px solid #000;
-  box-shadow: 3px 10px 10px -5px rgba(0, 0, 0, 0.25);
-`;
-
 const Button = styled.button`
   width: 100%;
   height: 50px;
