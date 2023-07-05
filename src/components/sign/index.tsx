@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { baseTheme } from "../../style/globalTheme";
 
 export const SignBackground = ({ message }: { message: string }) => {
   return (

@@ -5,5 +5,5 @@ export const baseTheme: DefaultTheme = {
   DeepNavy: "#212336",
   Navy: "#242639",
   LightNavy: "#2B2D41",
-  LightBlue: "#2B2D41",
+  LightBlue: "#EDF2F7",
 };
