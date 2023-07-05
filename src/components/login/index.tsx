@@ -1,8 +1,13 @@
 import styled from "styled-components";
 import Logo from "../../assets/logo.svg";
 import { Input } from "@chakra-ui/react";
+import { Cookies } from "react-cookie";
+import { useIsLoginStore } from "../../store/IsLoginStore";
 
 export const Login = () => {
+  const cookie = new Cookies();
+  const { isLogin, setIsLogin } = useIsLoginStore();
+
   return (
     <Container>
       <Wrapper>
@@ -28,7 +33,7 @@ export const Login = () => {
           isInvalid={false}
           isDisabled={false}
         />
-        <Button>로그인</Button>
+        <Button onClick={() => setIsLogin(true)}>로그인</Button>
         <OrContainer>
           <Line>
             <OrText>or</OrText>
