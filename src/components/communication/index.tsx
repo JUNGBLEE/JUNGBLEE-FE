@@ -1,43 +1,22 @@
 import { HStack } from "@chakra-ui/react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Communication = () => {
   return (
     <Container>
       전체
       <Grid>
-        <ThumbnailCard>
-          <Thumbnail src="" alt="사진" />
-          <CardDetail>
-            <CardTitle>자전거와 승용차의 사고, 누구의 과실인가?</CardTitle>
-            <CardContent>2023년 7월 5일 발생한... 이태영 멍청이 이태영 멍청이</CardContent>
-            <CardDate>2023년 7월 5일</CardDate>
-          </CardDetail>
-        </ThumbnailCard>
-        <ThumbnailCard>
-          <Thumbnail src="" alt="사진" />
-          <CardDetail>
-            <CardTitle>자전거와 승용차의 사고, 누구의 과실인가?</CardTitle>
-            <CardContent>2023년 7월 5일 발생한... 이태영 멍청이 이태영 멍청이</CardContent>
-            <CardDate>2023년 7월 5일</CardDate>
-          </CardDetail>
-        </ThumbnailCard>
-        <ThumbnailCard>
-          <Thumbnail src="" alt="사진" />
-          <CardDetail>
-            <CardTitle>자전거와 승용차의 사고, 누구의 과실인가?</CardTitle>
-            <CardContent>2023년 7월 5일 발생한... 이태영 멍청이 이태영 멍청이</CardContent>
-            <CardDate>2023년 7월 5일</CardDate>
-          </CardDetail>
-        </ThumbnailCard>
-        <ThumbnailCard>
-          <Thumbnail src="" alt="사진" />
-          <CardDetail>
-            <CardTitle>자전거와 승용차의 사고, 누구의 과실인가?</CardTitle>
-            <CardContent>2023년 7월 5일 발생한... 이태영 멍청이 이태영 멍청이</CardContent>
-            <CardDate>2023년 7월 5일</CardDate>
-          </CardDetail>
-        </ThumbnailCard>
+        <Link to={`/communication/${1}`}>
+          <ThumbnailCard>
+            <Thumbnail src="" alt="사진" />
+            <CardDetail>
+              <CardTitle>자전거와 승용차의 사고, 누구의 과실인가?</CardTitle>
+              <CardContent>2023년 7월 5일 발생한... 이태영 멍청이 이태영 멍청이</CardContent>
+              <CardDate>2023년 7월 5일</CardDate>
+            </CardDetail>
+          </ThumbnailCard>
+        </Link>
       </Grid>
     </Container>
   );

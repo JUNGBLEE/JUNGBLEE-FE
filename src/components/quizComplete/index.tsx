@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Accident from "../../assets/accident2.svg";
 import { VStack } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 const QuizComplete = () => {
   return (
@@ -8,7 +9,9 @@ const QuizComplete = () => {
       <img src={Accident} />
       <Text>문제 풀이를 완료하였습니다.</Text>
       <SubText>다음 문제까지 60분 남았습니다.</SubText>
-      <Button>홈으로</Button>
+      <Link to="/">
+        <Button>홈으로</Button>
+      </Link>
     </VStack>
   );
 };

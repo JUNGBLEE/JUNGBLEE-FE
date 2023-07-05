@@ -4,5 +4,5 @@ import { Quiz } from "../../components/quiz";
 import QuizComplete from "../../components/quizComplete";
 
 export const QuizPage = () => {
-  return <QuizComplete />;
+  return <Quiz />;
 };

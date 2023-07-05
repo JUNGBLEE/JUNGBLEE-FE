@@ -10,6 +10,7 @@ export const Container = styled.div`
   height: 80px;
   padding: 0 60px;
   background-color: ${(props) => props.theme.DeepNavy};
+  z-index: 99;
 `;
 
 export const Name = styled.div`
