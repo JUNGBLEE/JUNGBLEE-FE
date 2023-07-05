@@ -4,6 +4,7 @@ import { Button } from "@chakra-ui/react";
 export const Container = styled.div`
   position: fixed;
   display: flex;
+  top: 0;
   justify-content: space-between;
   align-items: center;
   width: 100%;

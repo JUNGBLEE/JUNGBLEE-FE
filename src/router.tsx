@@ -6,6 +6,7 @@ import { QuizPage } from "./pages/quiz";
 import CommunicationPage from "./pages/communication";
 import { CommunicationDetailPage } from "./pages/communication/detail";
 import QuizDetailPage from "./pages/quiz/detail";
+import MyPage from "./pages/mypage";
 
 export const Router = () => {
   return (
@@ -23,6 +24,7 @@ export const Router = () => {
           <Route index element={<CommunicationPage />} />
           <Route path=":id" element={<CommunicationDetailPage />} />
         </Route>
+        <Route path="/mypage" element={<MyPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,6 +1,5 @@
 import { Login } from "../components/login";
 import { SignBackground } from "../components/sign";
-import styled from "styled-components";
 import { HStack } from "@chakra-ui/react";
 
 export const LoginPage = () => {
@@ -11,5 +10,3 @@ export const LoginPage = () => {
     </HStack>
   );
 };
-
-
