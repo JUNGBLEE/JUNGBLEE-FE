@@ -2,8 +2,14 @@ import styled from "styled-components";
 import Logo from "../../assets/logo.svg";
 import { Input } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { useInput } from "../../hooks/useInput";
+import { useSignUpApi } from "../../apis/user";
 
 export const SignUp = () => {
+  const { state, setState, onHandleChange } = useInput({ username: "", accountId: "", password: "" });
+
+  const { mutate } = useSignUpApi();
+
   return (
     <Container>
       <Wrapper>
@@ -11,6 +17,8 @@ export const SignUp = () => {
         <Title>회원가입</Title>
         <Label>이름</Label>
         <Input
+          name="username"
+          onChange={onHandleChange}
           height={"45px"}
           marginBottom={"20px"}
           placeholder="이름 입력해 주세요"
@@ -21,6 +29,8 @@ export const SignUp = () => {
         />
         <Label>아이디</Label>
         <Input
+          name="accountId"
+          onChange={onHandleChange}
           height={"45px"}
           marginBottom={"20px"}
           placeholder="아이디를 입력해 주세요"
@@ -31,6 +41,8 @@ export const SignUp = () => {
         />
         <Label>비밀번호</Label>
         <Input
+          name="password"
+          onChange={onHandleChange}
           height={"45px"}
           marginBottom={"40px"}
           placeholder="비밀번호를 입력해 주세요"
@@ -39,7 +51,7 @@ export const SignUp = () => {
           isInvalid={false}
           isDisabled={false}
         />
-        <Button>회원가입</Button>
+        <Button onClick={() => mutate(state)}>회원가입</Button>
         <OrContainer>
           <Line>
             <OrText>or</OrText>

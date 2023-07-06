@@ -25,6 +25,9 @@ export const Header = () => {
             <Link to="/communication">
               <_.Text>커뮤니케이션</_.Text>
             </Link>
+            <Link to="/map">
+              <_.Text>지도</_.Text>
+            </Link>
           </HStack>
         )}
       </HStack>
@@ -40,7 +43,7 @@ export const Header = () => {
             </Button>
           </Link>
           <Link to="/signup">
-            <_.SignUpButton colorScheme="gray" fontSize="lg" variant="outline">
+            <_.SignUpButton colorScheme="blue" fontSize="lg" variant="outline">
               회원가입
             </_.SignUpButton>
           </Link>

@@ -1,22 +1,37 @@
 import { HStack } from "@chakra-ui/react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useVideoList } from "../../apis/video";
+import TH1 from "../../assets/진로변경.png";
+import TH2 from "../../assets/주정차추돌사고.png";
+import TH3 from "../../assets/후방직진.png";
+import TH4 from "../../assets/주차장사고.png";
+import TH5 from "../../assets/직진대좌회전사고.png";
+
+const thumbnails = [TH1, TH2, TH3, TH4, TH5];
 
 const Communication = () => {
+  const { data } = useVideoList();
+
   return (
     <Container>
       전체
       <Grid>
-        <Link to={`/communication/${1}`}>
-          <ThumbnailCard>
-            <Thumbnail src="" alt="사진" />
-            <CardDetail>
-              <CardTitle>자전거와 승용차의 사고, 누구의 과실인가?</CardTitle>
-              <CardContent>2023년 7월 5일 발생한... 이태영 멍청이 이태영 멍청이</CardContent>
-              <CardDate>2023년 7월 5일</CardDate>
-            </CardDetail>
-          </ThumbnailCard>
-        </Link>
+        {data?.data.responseList.map((res, i) => {
+          console.log(res.photo);
+          return (
+            <Link to={`/communication/${res.id}`}>
+              <ThumbnailCard>
+                <Thumbnail src={thumbnails[i]} alt="사진" />
+                <CardDetail>
+                  <CardTitle>{res.title}</CardTitle>
+                  <CardContent>{res.content}</CardContent>
+                  <CardDate>{res.issuedAt}</CardDate>
+                </CardDetail>
+              </ThumbnailCard>
+            </Link>
+          );
+        })}
       </Grid>
     </Container>
   );
@@ -69,6 +84,9 @@ const CardTitle = styled.div`
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 10px;
+  height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const CardContent = styled.div`

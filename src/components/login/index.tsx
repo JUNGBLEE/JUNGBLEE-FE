@@ -2,9 +2,15 @@ import styled from "styled-components";
 import Logo from "../../assets/logo.svg";
 import { Input } from "@chakra-ui/react";
 import { useIsLoginStore } from "../../store/IsLoginStore";
+import { useInput } from "../../hooks/useInput";
+import { useLoginApi } from "../../apis/user";
 
 export const Login = () => {
-  const { isLogin, setIsLogin } = useIsLoginStore();
+  const { state, setState, onHandleChange } = useInput({ accountId: "", password: "" });
+
+  const { accountId, password } = state;
+
+  const { mutate } = useLoginApi();
 
   return (
     <Container>
@@ -13,6 +19,7 @@ export const Login = () => {
         <Title>로그인</Title>
         <Label>아이디</Label>
         <Input
+          name="accountId"
           height={"45px"}
           marginBottom={"40px"}
           placeholder="아이디를 입력해 주세요"
@@ -20,9 +27,12 @@ export const Login = () => {
           variant="outline"
           isInvalid={false}
           isDisabled={false}
+          onChange={onHandleChange}
+          value={accountId}
         />
         <Label>비밀번호</Label>
         <Input
+          name="password"
           height={"45px"}
           marginBottom={"40px"}
           placeholder="비밀번호를 입력해 주세요"
@@ -30,13 +40,17 @@ export const Login = () => {
           variant="outline"
           isInvalid={false}
           isDisabled={false}
+          onChange={onHandleChange}
+          value={password}
+          type="password"
         />
-        <Button onClick={() => setIsLogin(true)}>로그인</Button>
-        <OrContainer>
-          <Line>
-            <OrText>or</OrText>
-          </Line>
-        </OrContainer>
+        <Button
+          onClick={() => {
+            mutate(state);
+          }}
+        >
+          로그인
+        </Button>
       </Wrapper>
     </Container>
   );

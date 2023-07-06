@@ -9,7 +9,7 @@ const QuizComplete = () => {
       <img src={Accident} />
       <Text>문제 풀이를 완료하였습니다.</Text>
       <SubText>다음 문제까지 60분 남았습니다.</SubText>
-      <Link to="/">
+      <Link to="/" onClick={() => sessionStorage.setItem("end", "true")}>
         <Button>홈으로</Button>
       </Link>
     </VStack>

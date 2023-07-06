@@ -4,7 +4,6 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 100px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -22,23 +21,52 @@ export const QuizNumber = styled.div`
   font-weight: 600;
   line-height: 28px;
 `;
-
-export const Question = styled.div`
+export const Card = styled.div<{ click: boolean }>`
   position: relative;
+  width: 600px;
+  height: 300px;
+  transition: 0.6s;
+  transform-style: preserve-3d;
+  transform: rotateY(${({ click }) => (click ? 0 : 180)}deg);
+`;
+
+export const Question = styled.div<{ click: boolean }>`
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 600px;
   height: 300px;
-  padding: 100px;
   background-color: ${(props) => props.theme.LightNavy};
   border-radius: 8px;
+  padding: 100px;
   margin-top: 30px;
   font-size: 30px;
   font-weight: 700;
   color: ${(props) => props.theme.LightBlue};
+  backface-visibility: hidden;
   text-align: center;
   white-space: pre-wrap;
+`;
+
+export const Answer = styled.div<{ click: boolean }>`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 600px;
+  height: 300px;
+  background-color: ${(props) => props.theme.LightNavy};
+  border-radius: 8px;
+  padding: 100px;
+  margin-top: 30px;
+  font-size: 26px;
+  font-weight: 700;
+  color: ${(props) => props.theme.LightBlue};
+  text-align: center;
+  backface-visibility: hidden;
+  white-space: pre-wrap;
+  transform: rotateY(180deg);
 `;
 
 export const Buttons = styled.div`
@@ -46,17 +74,17 @@ export const Buttons = styled.div`
   width: 600px;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
-  margin-top: 20px;
+  margin-top: 50px;
 `;
 
-export const Button = styled.div`
+export const Button = styled.div<{ isClick: boolean; color: string }>`
   display: flex;
   justify-content: start;
   align-items: center;
   width: 290px;
   height: 70px;
   border-radius: 8px;
-  background: #fc8181;
+  background: ${({ isClick, color }) => (!isClick ? "#EBEBEB" : color)};
   color: ${(props) => props.theme.Navy};
   cursor: pointer;
   padding: 0 20px;

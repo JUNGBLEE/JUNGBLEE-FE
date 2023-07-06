@@ -3,39 +3,49 @@ import styled from "styled-components";
 import { HStack, Progress } from "@chakra-ui/react";
 import LeftIcon from "../../assets/leftArrow.svg";
 import RightIcon from "../../assets/rightArrow.svg";
+import { useMyPageApi } from "../../apis/user";
+import { useRecentQuestion } from "../../apis/quiz";
 
 const MyPage = () => {
+  const { data } = useMyPageApi();
+
+  const total = (data?.data.failedQuizCount ?? 0) + (data?.data.successQuizCount ?? 0);
+
+  const { data: recentQuestion } = useRecentQuestion();
+
   return (
     <>
-      <SideBar />
+      <SideBar id={data?.data.accountId ?? "아이디"} />
       <Wrapper>
         <ProgressContainer>
-          <MyInfo>정지관님이 푼 문제 수는 5개 입니다.</MyInfo>
+          <MyInfo>
+            {data?.data.username}님이 푼 문제 수는 {total}개 입니다.
+          </MyInfo>
           <HStack justifyContent="space-between">
             <Text style={{ marginLeft: 12 }}>맞힌 문제</Text>
-            <Progress w={"70%"} />
-            <Text>3개</Text>
+            <Progress colorScheme="blue" hasStripe w={"70%"} value={((data?.data.successQuizCount ?? 3) / 5) * 100} />
+            <Text>{data?.data.successQuizCount}개</Text>
           </HStack>
           <HStack justifyContent="space-between" marginTop={"30px"}>
             <Text style={{ marginLeft: 12 }}>틀린 문제</Text>
-            <Progress w={"70%"} />
-            <Text>2개</Text>
+            <Progress colorScheme="red" hasStripe w={"70%"} value={((data?.data.failedQuizCount ?? 2) / 5) * 100} />
+            <Text>{data?.data.failedQuizCount}개</Text>
           </HStack>
         </ProgressContainer>
       </Wrapper>
       <Wrapper style={{ paddingTop: 30 }}>
         <QuestionList>
-          <ArrowCircle>
+          {/* <ArrowCircle>
             <img src={LeftIcon} />
-          </ArrowCircle>
+          </ArrowCircle> */}
           <Cards>
-            <QuestionCard></QuestionCard>
-            <QuestionCard></QuestionCard>
-            <QuestionCard></QuestionCard>
+            {recentQuestion?.data.quizResponseList.slice(0, 3).map((res) => {
+              return <QuestionCard color={res.successful ? "#73B0EF" : "#FE4956"}>{res.content}</QuestionCard>;
+            })}
           </Cards>
-          <ArrowCircle>
+          {/* <ArrowCircle>
             <img src={RightIcon} />
-          </ArrowCircle>
+          </ArrowCircle> */}
         </QuestionList>
       </Wrapper>
     </>
@@ -94,12 +104,19 @@ const Cards = styled.div`
   gap: 5%;
 `;
 
-const QuestionCard = styled.div`
+const QuestionCard = styled.div<{ color: string }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 600;
   background-color: #ffffff;
-  border: 3px solid #fe4956;
+  border: 3px solid ${({ color }) => color};
   width: 100%;
   height: 270px;
   border-radius: 5px;
+  padding: 20px;
+  text-align: center;
 `;
 
 const ArrowCircle = styled.div`

@@ -1,35 +1,107 @@
 import styled from "styled-components";
 import { HStack } from "@chakra-ui/react";
 import SendImg from "../../assets/send.svg";
+import { useChooseVideo, useCreateOption, useSingleVideo, useVideoOptionList } from "../../apis/video";
+import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { useInput } from "../../hooks/useInput";
+import Video1 from "../../../public/videos/video.mp4";
+import Video2 from "../../../public/videos/video2.mp4";
+import Video3 from "../../../public/videos/video3.mp4";
+import Video4 from "../../../public/videos/video4.mp4";
+import Video5 from "../../../public/videos/video5.mp4";
+
+const videos = [Video1, Video2, Video3, Video4, Video5];
 
 export const CommunicationDetail = () => {
+  const { id } = useParams();
+  const { data: singleVideo } = useSingleVideo(id || "");
+  const { mutate: createOption } = useCreateOption(id || "");
+  const { data: videoOptionList } = useVideoOptionList(id || "");
+  const [click, setClick] = useState<"T" | "F" | "">("");
+  const { state, onHandleChange } = useInput({ content: "" });
+  const { mutate } = useChooseVideo(id || "");
+
+  console.log(singleVideo);
+
+  const total = (singleVideo?.data.teamA ?? 0) + (singleVideo?.data.teamB ?? 0) + 1;
+
   return (
     <Container>
-      <Video></Video>
-      <Title>자전거와 승용차의 사고, 누구의 과실인가?</Title>
-      <Content>
-        2023년 7월 5일 대전 유성구 장동 대덕SW마이스터고등학교 인근에서 발생한 자전거와 승용차의 사고 영상입니다. 등의
-        대충 설명~ ~ ~
-      </Content>
+      <Video src={videos[Number(id) - 1 || 0]} loop autoPlay muted />
+      <Title>{singleVideo?.data.title}</Title>
+      <Content>{singleVideo?.data.content}</Content>
       <HStack justifyContent="space-between" position="relative">
-        <Button>A의 과실이 더 크다.</Button>
-        <VS>VS</VS>
-        <Button>B의 과실이 더 크다.</Button>
+        <Button
+          click={click}
+          width={30}
+          isClick={click === "T"}
+          color="#73B0EF"
+          onClick={() => {
+            mutate({ team: true });
+            setClick("T");
+          }}
+        >
+          A의 과실이 더 크다.
+          {click && (
+            <>
+              <br />
+              <>{singleVideo?.data.teamA ?? 0 + +(click === "T" && 1)}</>
+            </>
+          )}
+        </Button>
+        <VS click={!!click}>VS</VS>
+        <Button
+          click={click}
+          width={70}
+          isClick={click === "F"}
+          color="#F26D7B"
+          onClick={() => {
+            mutate({ team: false });
+            setClick("F");
+          }}
+        >
+          B의 과실이 더 크다.
+          {click && (
+            <>
+              <br />
+              <>{singleVideo?.data.teamB ?? 0 + +(click === "F" && 1)}</>
+            </>
+          )}
+        </Button>
       </HStack>
       <Line />
       <HStack position="relative">
-        <Input placeholder="메세지를 입력해주세요." />
-        <SendIcon src={SendImg} />
+        <Input
+          name="content"
+          onChange={onHandleChange}
+          value={state.content}
+          disabled={!click}
+          placeholder="메세지를 입력해주세요."
+        />
+        <SendIcon
+          onClick={() => createOption({ team: click === "T" ? true : false, content: state.content })}
+          src={SendImg}
+        />
       </HStack>
       <Comments>
-        <CommentCard>
-          <Name>정지관</Name>
-          <Comment>저는 A의 과실이 큰 것 같습니다. 갑자기 골목에서 나타났거든요!</Comment>
-        </CommentCard>
-        <DisAgreeComment>
-          <Name>이태영</Name>
-          <Comment>그런 게 어디 있나요? 다시 설명해 주세요.</Comment>
-        </DisAgreeComment>
+        {videoOptionList?.data.videoQuizOpinionResponseList.map((res) => {
+          return (
+            <>
+              {res.team ? (
+                <CommentCard>
+                  <Name>{res.username}</Name>
+                  <Comment>{res.content}</Comment>
+                </CommentCard>
+              ) : (
+                <DisAgreeComment>
+                  <Name>{res.username}</Name>
+                  <Comment>{res.content}</Comment>
+                </DisAgreeComment>
+              )}
+            </>
+          );
+        })}
       </Comments>
     </Container>
   );
@@ -46,15 +118,14 @@ const Container = styled.div`
   padding-bottom: 120px;
 `;
 
-const Video = styled.div`
+const Video = styled.video`
   position: relative;
   display: flex;
   align-items: center;
   width: 100%;
-  min-height: 300px;
+  height: 300px;
   background-color: ${(props) => props.theme.LightNavy};
   border-radius: 8px;
-  padding: 100px;
   margin-top: 30px;
   font-size: 30px;
   font-weight: 700;
@@ -78,25 +149,24 @@ const Content = styled.div`
   font-weight: 400;
 `;
 
-const Button = styled.div`
+const Button = styled.div<{ width: number; isClick: boolean; color: string; click: string }>`
   display: flex;
   justify-content: center;
+  min-width: 50px;
   align-items: center;
-  width: 48%;
+  width: ${({ click, width }) => (click ? `${width}%` : "48%")};
   height: 100px;
   border-radius: 10px;
   font-size: 20px;
   font-weight: 700;
   box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.25);
-  background-color: #ebebeb;
+  background-color: ${({ isClick, color }) => (isClick ? color : "#EBEBEB")};
   cursor: pointer;
+  text-align: center;
+  transition: 0.5s;
 `;
 
-const AgreeButton = styled.div``;
-
-const DisAgreeButton = styled.div``;
-
-const VS = styled.div`
+const VS = styled.div<{ click: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -107,9 +177,10 @@ const VS = styled.div`
   width: 100px;
   height: 60px;
   background-color: white;
-  left: 50%;
+  left: ${({ click }) => (click ? "30%" : "50%")};
   top: 50%;
   transform: translate(-50%, -50%);
+  transition: 0.5s;
   border-radius: 50px;
 `;
 
@@ -118,15 +189,17 @@ const Line = styled.hr`
   margin: 60px 0;
 `;
 
-const Input = styled.input`
+const Input = styled.input<{ disabled: boolean }>`
   width: 100%;
   height: 60px;
   padding: 32px 64px 32px 32px;
-  background-color: #f9f9f9;
   outline: none;
   font-size: 20px;
   font-weight: 700;
   border-radius: 8px;
+  background-color: ${({ disabled }) => (disabled ? "#dedddd" : "#f9f9f9")};
+  color: ${({ disabled }) => disabled && "#212121"};
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "auto")};
   &::placeholder {
     color: #cbcbcb;
   }

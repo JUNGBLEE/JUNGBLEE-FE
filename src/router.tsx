@@ -7,6 +7,8 @@ import CommunicationPage from "./pages/communication";
 import { CommunicationDetailPage } from "./pages/communication/detail";
 import QuizDetailPage from "./pages/quiz/detail";
 import MyPage from "./pages/mypage";
+import { HomePage } from "./pages/HomePage";
+import { MapPage } from "./pages/map";
 
 export const Router = () => {
   return (
@@ -14,8 +16,10 @@ export const Router = () => {
       <Header />
       <Routes>
         <Route path="/*" element={<div>404</div>} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/map" element={<MapPage />} />
         <Route path="/quiz">
           <Route index element={<QuizPage />} />
           <Route path=":id" element={<QuizDetailPage />} />

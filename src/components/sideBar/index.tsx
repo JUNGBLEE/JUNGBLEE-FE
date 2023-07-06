@@ -1,16 +1,32 @@
 import styled from "styled-components";
 import Person from "../../assets/person.svg";
+import { Cookies } from "react-cookie";
+import { useIsLoginStore } from "../../store/IsLoginStore";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
-const SideBar = () => {
+const SideBar = ({ id }: { id: string }) => {
+  const cookie = new Cookies();
+  const { setIsLogin } = useIsLoginStore();
+  const navigate = useNavigate();
   return (
     <Container>
       <Profile src={Person}></Profile>
-      <Id>아이디</Id>
+      <Id>{id}</Id>
       <Texts>
         <Text>최근 푼 문제</Text>
-        <Text>맞힌 문제</Text>
-        <Text>틀린 문제</Text>
-        <Text>로그아웃</Text>
+        <Text
+          style={{ color: "#FE4956" }}
+          onClick={() => {
+            cookie.remove("access_token");
+            sessionStorage.removeItem("end");
+            navigate("/");
+            setIsLogin(false);
+            toast.success("로그아웃이 완료되었습니다.");
+          }}
+        >
+          로그아웃
+        </Text>
       </Texts>
     </Container>
   );
@@ -55,4 +71,5 @@ const Text = styled.div`
   font-weight: 700;
   color: white;
   text-align: center;
+  cursor: pointer;
 `;
